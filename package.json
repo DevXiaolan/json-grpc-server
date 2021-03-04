@@ -1,6 +1,6 @@
 {
   "name": "json-grpc-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Get a full fake GRPC API with zero coding in less than 30 seconds 🤡",
   "main": "src/index.js",
   "scripts": {

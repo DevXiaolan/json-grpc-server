@@ -8,6 +8,7 @@ package test;
 service Test {
   rpc Hello(google.protobuf.Empty) returns (HelloRes){}
   rpc HealthCheck(HealthReq) returns (HealthRes) {}
+  rpc QueryUpdateInfo(google.protobuf.Empty) returns (stream UpdateInfo) {}
 }
 
 message HelloRes{
@@ -22,4 +23,10 @@ message HealthReq {
 message HealthRes {
   int32 status_code = 1;
   string content = 2;
+}
+
+message UpdateInfo {
+  int32 status_code = 1;
+  string md5sum = 2;
+  bytes content = 3;
 }

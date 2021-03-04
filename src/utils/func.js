@@ -1,5 +1,9 @@
 const { readdirSync, readFileSync } = require('fs');
 
+const isStream = (obj) => {
+
+}
+
 const detectPackageAndService = (protoFilePath) => {
   const pkgAndService = ['', ''];
   const lines = readFileSync(protoFilePath).toString().split(/\r|\n/);
@@ -36,8 +40,20 @@ const findProto = (dataRoot) => {
 
 const parseRules = (mockData) => {
   return Object.entries(mockData).map(([key, value]) => {
+    if (value.stream) {
+      return {
+        input: '.*',
+        method: key,
+        streamType: "server",
+        stream: [
+          {
+            output: value.stream
+          }
+        ]
+      }
+    }
     return {
-      input:'.*',
+      input: '.*',
       method: key,
       output: value,
     };
