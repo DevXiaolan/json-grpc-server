@@ -1,0 +1,13 @@
+{
+  "port": 3001,
+  "mock": {
+    "Hello": {
+      "status_code": 0,
+      "content": "{\"hello\":\"world\"}"
+    },
+    "HealthCheck":{
+      "status_code": 0,
+      "content": "HealthCheck"
+    }
+  }
+}
