@@ -40,6 +40,18 @@ const findProto = (dataRoot) => {
 
 const parseRules = (mockData) => {
   return Object.entries(mockData).map(([key, value]) => {
+    if (value.stream) {
+      return {
+        method: key,
+        streamType: "mutual",
+        stream: [
+          {
+            input: '.*',
+            output: value.stream
+          }
+        ]
+      }
+    }
     if (value.clientStream) {
       return {
         method: key,
