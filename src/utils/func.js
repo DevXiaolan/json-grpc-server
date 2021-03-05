@@ -40,7 +40,7 @@ const findProto = (dataRoot) => {
 
 const parseRules = (mockData) => {
   return Object.entries(mockData).map(([key, value]) => {
-    if (value.upstream) {
+    if (value.clientStream) {
       return {
         method: key,
         streamType: "client",
@@ -52,7 +52,7 @@ const parseRules = (mockData) => {
         output: value.upstream
       };
     }
-    if (value.stream) {
+    if (value.serverStream) {
       return {
         input: '.*',
         method: key,

@@ -8,13 +8,6 @@
     "HealthCheck": {
       "status_code": 0,
       "content": "HealthCheck"
-    },
-    "QueryUpdateInfo": {
-      "stream": {
-        "status_code": 0,
-        "md5sum": "",
-        "content":""
-      }
     }
   }
 }
