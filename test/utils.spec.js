@@ -8,7 +8,7 @@ describe('utils tests', () => {
     const protoPath = resolve(`${__dirname}/../data/test.proto`);
     assert.deepEqual(
       detectPackageAndService(protoPath),
-      ['test', 'Test']
+      ['greeter', 'Greeter']
     );
   });
   it('findProto', () => {
@@ -18,33 +18,64 @@ describe('utils tests', () => {
       [
         {
           protoPath: `${root}/test.proto`,
-          packageName: 'test',
-          serviceName: 'Test',
+          packageName: 'greeter',
+          serviceName: 'Greeter',
           jsonPath: `${root}/test.json`,
         }
       ],
     );
   });
-
   it('parseRules', () => {
-    const mockData = {
-      "Hello": {
-        "status_code": 0,
-        "content": "{\"hello\":\"world\"}"
-      }
-    };
+    const protoPath = resolve(`${__dirname}/../data/test.proto`);
+    const mockData = require(resolve(`${__dirname}/../data/test.json`)).mock;
+    
     assert.deepEqual(
-      parseRules(mockData),
+      parseRules({protoPath,packageName:'greeter',serviceName: 'Greeter'}, mockData),
       [
         {
-          method: 'Hello',
-          input: '.*',
-          output: {
-            status_code: 0,
-            content: "{\"hello\":\"world\"}"
+          "input": ".*",
+          "method": "Hello",
+          "output": {
+            "message": "Hello"
           }
+        },
+        {
+          "method": "HowAreYou",
+          "streamType": "client",
+          "stream": [
+            {
+              "input": ".*"
+            }
+          ],
+          "output": {
+            "message": "HowAreYou"
+          }
+        },
+        {
+          "input": ".*",
+          "method": "NiceToMeetYou",
+          "streamType": "server",
+          "stream": [
+            {
+              "output": {
+                "message": "NiceToMeetYou"
+              }
+            }
+          ]
+        },
+        {
+          "method": "Chat",
+          "streamType": "mutual",
+          "stream": [
+            {
+              "input": ".*",
+              "output": {
+                "message": "Chat"
+              }
+            }
+          ]
         }
-      ]
+      ],
     );
-  })
+  });
 })

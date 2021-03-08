@@ -1,6 +1,6 @@
 {
   "name": "json-grpc-server",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Get a full fake GRPC API with zero coding in less than 30 seconds 🤡",
   "main": "src/index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
+    "@grpc/proto-loader": "^0.5.6",
     "@gvarga2/grpc-mock": "^0.7.0",
     "grpc": "^1.24.5",
     "grpc-mock": "^0.7.0"

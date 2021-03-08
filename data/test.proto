@@ -1,26 +1,18 @@
-
-syntax = "proto3";
-
-option objc_class_prefix = "DTUP";
-import "google/protobuf/empty.proto";
-package test;
-
-service Test {
-  rpc Hello(google.protobuf.Empty) returns (HelloRes){}
-  rpc HealthCheck(HealthReq) returns (HealthRes) {}
+syntax="proto3";
+ 
+package greeter;
+ 
+service Greeter {
+  rpc Hello (RequestGreet) returns (ResponseGreet) {}
+  rpc HowAreYou (stream RequestGreet) returns (ResponseGreet) {}
+  rpc NiceToMeetYou (RequestGreet) returns (stream ResponseGreet) {}
+  rpc Chat (stream RequestGreet) returns (stream ResponseGreet) {}
 }
-
-message HelloRes{
-  int32 status_code = 1;
-  string content = 2;
+ 
+message RequestGreet {
+  string message = 1;
 }
-
-message HealthReq {
-  string hello = 1;
+ 
+message ResponseGreet {
+  string message = 1;
 }
-
-message HealthRes {
-  int32 status_code = 1;
-  string content = 2;
-}
-

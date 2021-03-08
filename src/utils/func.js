@@ -1,8 +1,5 @@
 const { readdirSync, readFileSync } = require('fs');
-
-const isStream = (obj) => {
-
-}
+const protoLoader = require('@grpc/proto-loader');
 
 const detectPackageAndService = (protoFilePath) => {
   const pkgAndService = ['', ''];
@@ -38,43 +35,46 @@ const findProto = (dataRoot) => {
   return protos;
 };
 
-const parseRules = (mockData) => {
+const parseRules = (proto, mockData) => {
+  const { protoPath, packageName, serviceName } = proto;
+  const conf = protoLoader.loadSync(protoPath);
+  const methods = conf[`${packageName}.${serviceName}`];
   return Object.entries(mockData).map(([key, value]) => {
-    if (value.stream) {
+    if (methods[key].requestStream && methods[key].responseStream){
       return {
         method: key,
-        streamType: "mutual",
+        streamType: 'mutual',
         stream: [
           {
             input: '.*',
-            output: value.stream
+            output: value,
           }
         ]
-      }
+      };
     }
-    if (value.clientStream) {
+    if (methods[key].requestStream) {
       return {
         method: key,
-        streamType: "client",
+        streamType: 'client',
         stream: [
           {
             input: '.*'
           }
         ],
-        output: value.upstream
+        output: value,
       };
     }
-    if (value.serverStream) {
+    if (methods[key].responseStream) {
       return {
         input: '.*',
         method: key,
-        streamType: "server",
+        streamType: 'server',
         stream: [
           {
-            output: value.stream
+            output: value,
           }
         ]
-      }
+      };
     }
     return {
       input: '.*',
@@ -82,7 +82,7 @@ const parseRules = (mockData) => {
       output: value,
     };
   });
-}
+};
 
 module.exports = {
   detectPackageAndService,
