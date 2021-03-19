@@ -20,7 +20,7 @@ Get a full fake GRPC API with zero coding in less than 30 seconds 🤡
 
 - pull image
 
-> docker push devxiaolan/json-grpc-server
+> docker pull devxiaolan/json-grpc-server
 >
 > docker tag devxiaolan/json-grpc-server json-grpc-server:latest
 
