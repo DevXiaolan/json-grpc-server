@@ -35,12 +35,30 @@ const findProto = (dataRoot) => {
   return protos;
 };
 
+const formatString = str => {
+  return str.split('_').map((piece, index) => {
+    return `${index > 0 ? piece[0].toUpperCase() : piece[0].toLowerCase()}${piece.substr(1)}`;
+  }).join('');
+}
+
+const transformKeys = obj => {
+  if (typeof obj !== 'object') {
+    return obj;
+  }
+  const newObj = {};
+  for (const k in obj) {
+    newObj[formatString(k)] = transformKeys(obj[k]);
+  }
+  return newObj;
+}
+
 const parseRules = (proto, mockData) => {
   const { protoPath, packageName, serviceName } = proto;
   const conf = protoLoader.loadSync(protoPath);
   const methods = conf[`${packageName}.${serviceName}`];
   return Object.entries(mockData).map(([key, value]) => {
-    if (methods[key].requestStream && methods[key].responseStream){
+    value = transformKeys(value);
+    if (methods[key].requestStream && methods[key].responseStream) {
       return {
         method: key,
         streamType: 'mutual',
